@@ -1,122 +1,141 @@
 import 'package:flutter/material.dart';
+// Flutter'in material design kutuphanesini dahil ettim
+// UI widget'larini kullanabiliriz.
+
+// Widget nedir? 
+/*
+Flutter'da her sey bir widget
+Ekranda gorunen veya gorunmeyen bilesenlerdir. Butonlar, metinler, gorseller, sayfalar...
+
+Iki tur widget vardir: 
+
+- Stateless Widget ( Degismeyen widget )
+  Bir kez olusturulur ve bir daha degismez. Ornegin sabit metin: Text("Merhaba")
+
+- Stateful Widget ( Degisebilen widget )
+  Ornegin bir sayac uygulamasinda sayi degistikce ekranda guncellenmesi
+*/
 
 void main() {
   runApp(const MyApp());
 }
 
+// runApp: verilen Widget'i calistirir ve ekranda gosterir
+// MyApp adli sinif olusturulur ve baslatilir
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
-}
+} 
+
+/*
+
+MyApp sinifi StatelessWidget'tan miras alir
+Stateless degismeyen arayuz icindir yani bu widget icinde degisen bir veri yok
+MyApp uygulamanin temel yapisini belirler
+
+const MyApp({super.key});  Nedir?
+    Bu bir constructor. Bu satir MyApp nesnesi olusturulurken anahtar gibi key bilgileri
+    alabilir.  
+
+Widget build(BuildContext context)  
+    Her Flutter widget'inda build() metodu vardir
+    Arayuzde hangi widget'larin gorunecegini belirler
+    Ekrani tekrar cizmesi gerektiginde build() tekrar calisir
+
+        Eger Stateful Widget kullaniyorsak ve setState() cagirirsak, 
+        Flutter build() metodunu yeniden calistirir.
+        Ama Stateless Widget'larda build() sadece bir kez calisir ve bir daha degismez.
+
+return MaterialApp(...)
+    MaterialApp uygulamanin ana iskeletini olusturur
+    title: uygulamanin basligi (genelde cihazda gozukmez)
+    theme: uygulamanin temasini belirler renk, yazi vs.
+          ColorScheme.fromSeed(seedColor: Colors.deepPurple) --> renk duzeni ve ana renk
+    home: MyHomePage(...) → Açilis sayfasi olarak MyHomePage widget'ini kullaniyor.
+          Uygulama acildiginda gosterilecek sayfayi belirler
+          Burada MyHomePage adli widget kullaniliyor
+          MyHomePage icinde degismeyen veriler oldugu icin const
+*/
 
 class MyHomePage extends StatefulWidget {
+  // MyHomePage, bir StatefulWidget'tir.
+  // Yani, durumu degisebilen bir widget olusturuyoruz.
+
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+  // Yapici (constructor) metod.
+  // `title` parametresi zorunlu (`required`) olarak aliniyor.
 
   final String title;
+  // `title` adinda bir degisken tanimladik.
+  // `final` oldugu icin sadece baslangicta atanabilir, sonradan degistirilemez.
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
+  // `createState()` metodu, StatefulWidget icin bir "state" (durum) nesnesi dondurur.
+  // Burada `_MyHomePageState` sinifi cagriliyor ve widget'in durumu bu sinif tarafindan yonetilecek.
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  // Sayac degiskeni, baslangicta 0 olarak ayarlanmis
   int _counter = 0;
 
+  // Bu fonksiyon, butona basildiginda cagrilir
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
+      // Sayac degerini 1 artirir
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      // Uygulamanin ust cubugu (AppBar)
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
+        // Temanin birincil renginin tersini arka plan rengi olarak ayarlar
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        // Uygulama cubuguna (AppBar) baslik ekler
         title: Text(widget.title),
       ),
+      
+      // Uygulamanin govde kismi (body)
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
+          // Elemanlari dikeyde ortalar
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // Sabit bir bilgilendirme metni
             const Text('You have pushed the button this many times:'),
+            
+            // Sayac degerini gosteren metin
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              '$_counter', // Sayac degeri burada gosterilir
+              style: Theme.of(context).textTheme.headlineMedium, // Tema stilini uygular
             ),
           ],
         ),
       ),
+      
+      // Ekranin sag alt kosesinde yusen buton (FAB)
       floatingActionButton: FloatingActionButton(
+        // Butona basildiginda _incrementCounter fonksiyonunu cagirir
         onPressed: _incrementCounter,
+        // Butonun uzerine gelindiginde gorunen ipucu
         tooltip: 'Increment',
+        // Butonun icindeki + simgesi
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ), 
     );
   }
 }
