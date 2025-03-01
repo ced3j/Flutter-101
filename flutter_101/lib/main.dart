@@ -11,7 +11,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Flutter Projesi', 
+      title: 'Flutter 101 Project', 
       debugShowCheckedModeBanner: false, // Debug etiketi 
       home: const TextLearnView(),
       
